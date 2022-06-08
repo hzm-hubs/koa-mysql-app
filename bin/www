@@ -1,0 +1,7 @@
+const app = require("../app");
+
+const config = require("../config/index");
+
+app.listen(config.port, () => {
+	consola.success(`service is listenning on localhost:${config.port}`);
+});

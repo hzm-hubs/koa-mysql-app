@@ -1,5 +1,25 @@
 {
+  "name": "koajs",
+  "version": "1.0.0",
+  "description": "npm init",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/www",
+    "prd": "pm2 start bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/author2468/koajs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/author2468/koajs/issues"
+  },
+  "homepage": "https://github.com/author2468/koajs#readme",
   "dependencies": {
-    "koa": "^2.13.1"
+    "consola": "^2.15.3",
+    "koa": "^2.13.4"
   }
 }
