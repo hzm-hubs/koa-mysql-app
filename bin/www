@@ -2,6 +2,19 @@ const app = require("../app");
 
 const config = require("../config/index");
 
+const static = require("../static");
+
+app.use(async (ctx) => {
+	console.log("上下文", JSON.stringify(ctx));
+	ctx.body = "Hello World";
+});
+
+app.use("/", static);
+
 app.listen(config.port, () => {
 	consola.success(`service is listenning on localhost:${config.port}`);
+});
+
+app.on("error", (error) => {
+	console.log(`error: ${error}`);
 });
