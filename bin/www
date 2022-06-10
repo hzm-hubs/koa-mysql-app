@@ -4,11 +4,40 @@ const app = require("../app");
 
 const config = require("../config/index");
 
+// 打印插件
+const consola = require("consola");
+
 // 引入静态路由
 const static = require("koa-static");
 
 // 引入编写的路由
 const router = require("../router/index");
+
+// 引入资源
+const cors = require("@koa/cors");
+
+/**
+ *  * CORS middleware 要再路由注册之前设置否则无效 可参考 https://blog.csdn.net/qq_30868289/article/details/83657535
+ *
+ * @param {Object} [options]
+ *  - {String|Function(ctx)} origin `Access-Control-Allow-Origin`, default is request Origin header
+ *  - {String|Array} allowMethods `Access-Control-Allow-Methods`, default is 'GET,HEAD,PUT,POST,DELETE,PATCH'
+ *  - {String|Array} exposeHeaders `Access-Control-Expose-Headers`
+ *  - {String|Array} allowHeaders `Access-Control-Allow-Headers`
+ *  - {String|Number} maxAge `Access-Control-Max-Age` in seconds
+ *  - {Boolean|Function(ctx)} credentials `Access-Control-Allow-Credentials`, default is false.
+ *  - {Boolean} keepHeadersOnError Add set headers to `err.header` if an error is thrown
+ *  - {Boolean} secureContext `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` headers.', default is false
+ * @return {Function} cors middleware
+ * @api public
+ */
+app.use(
+	cors({
+		origin: (ctx) => {
+			return "*";
+		},
+	})
+);
 
 // 绑定可以访问静态文件 这是默认注册到根目录(/)的方法
 app.use(static("static"));
@@ -18,7 +47,7 @@ app.use(static("static"));
  *  app.use('/static',require("koa-static")( "static"))
  */
 
-// 绑定动态路由
+// 绑定动态路由 allowedMethods 允许 get、post、delete、put
 app.use(router.routes()).use(router.allowedMethods());
 
 app.use(async (ctx) => {

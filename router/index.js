@@ -13,9 +13,13 @@ router.get("/user/:name", (ctx, next) => {
 	console.log("ctx.params", ctx.params);
 	console.log("ctx.query", ctx.query);
 
+	console.log("ctx", ctx.res);
+
 	let response = judgeInfo(ctx.params?.name);
 
 	ctx.body = response;
+
+	return ctx.params?.name;
 });
 
 // 注册系统信息路径

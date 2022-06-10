@@ -1,9 +1,6 @@
 // 引入 koa
 const koa = require("koa");
 
-// 打印插件
-const consola = require("consola");
-
 const app = new koa();
 
 /**

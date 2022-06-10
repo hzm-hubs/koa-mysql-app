@@ -19,9 +19,15 @@
   },
   "homepage": "https://github.com/author2468/koajs#readme",
   "dependencies": {
+    "@koa/cors": "^3.3.0",
     "consola": "^2.15.3",
     "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^4.0.3",
+    "koa-onerror": "^4.2.0",
     "koa-router": "^10.1.1",
-    "koa-static": "^5.0.0"
+    "koa-static": "^5.0.0",
+    "koa2-request": "^1.0.4"
   }
 }
