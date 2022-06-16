@@ -85,7 +85,7 @@ for (let nw in networksObj) {
 	osInfo["networksObj" + nw] = Array.from(networksObj[nw]).map(
 		(obj, idx, arr) => {
 			let temp = {};
-			console.log(`地址：${obj.address}`);
+			// console.log(`地址：${obj.address}`);
 			// console.log(`掩码：${obj.netmask}`);
 			// console.log(`物理地址：${obj.mac}`);
 			// console.log(`协议族：${obj.family}`);
