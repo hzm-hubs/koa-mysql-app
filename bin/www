@@ -34,6 +34,7 @@ const cors = require("@koa/cors");
 app.use(
 	cors({
 		origin: (ctx) => {
+			// 可以在这里做一些来源处理，‘*'是都可以访问 不做处理
 			return "*";
 		},
 	})
