@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/author2468/koajs#readme",
   "dependencies": {
+    "@koa/cors": "^3.3.0",
     "consola": "^2.15.3",
     "koa": "^2.13.4",
     "koa-body-parser": "^1.1.2",

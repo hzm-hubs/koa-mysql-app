@@ -1,6 +1,11 @@
+#!/usr/bin/env node
+
 const app = require("../app");
 
 const config = require("../config/index");
+
+// 打印插件
+const consola = require("consola");
 
 // 引入静态路由
 const static = require("koa-static");
@@ -11,6 +16,7 @@ const router = require("../router/index");
 
 // 注册可以访问静态文件 这是默认注册到根目录(/)的方法
 app.use(static("static"));
+
 /**
  *  也可以给静态文件再添加一个通用路由
  *  app.use('/static',require("koa-static")( "static"))
