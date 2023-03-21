@@ -21,8 +21,8 @@ const { commonBack } = require("../plugins/utils");
 // 获取用户信息接口
 var judgeInfo = require("./user");
 router.get("/user/:name", (ctx, next) => {
-  console.log("ctx.params", ctx.params);
-  console.log("ctx.query", ctx.query);
+  // consoleInfo("ctx.params", ctx.params);
+  // consoleInfo("ctx.query", ctx.query);
   let response = judgeInfo(ctx.params?.name);
   ctx.body = response;
 });
@@ -32,7 +32,7 @@ router.post("/getSalarys", (ctx, next) => {
   // 不能直接赋值
   return new Promise(async (resolve, reject) => {
     let { pageNum, pageSize, year } = ctx.request.body;
-    // console.log("接受到的参数pageNum", year);
+    // consoleInfo("接受到的参数pageNum", year);
     let sqlExpression = "SELECT * FROM `incomes`";
     let totalExpression = "SELECT COUNT(*) num FROM `incomes`";
     let total,
@@ -47,11 +47,11 @@ router.post("/getSalarys", (ctx, next) => {
       // totalExpression += ` where name LIKE '%${year}%'`;
     }
 
-    // 获取总数 promise 
+    // 获取总数 promise
     const back = await poolConnection.query(totalExpression);
     total = back?.[0]?.num || 0;
     // poolConnection.query(totalExpression).then((res) => {
-    //   console.log(12)
+    //   consoleInfo(12)
     //   total = res?.[0]?.num || 0
     //   if (total) {
     //     resolve(
@@ -86,8 +86,8 @@ router.post("/getSalarys", (ctx, next) => {
 
     // 旧写法
     // poolConnection.query(sqlExpression, function (err, results, fields) {
-    //   console.log(fields); // 额外的元数据（如果有的话）
-    //   console.log("results", results);
+    //   consoleInfo(fields); // 额外的元数据（如果有的话）
+    //   consoleInfo("results", results);
     //   if (!err) {
     //     resolve(
     //       commonBack(
@@ -102,6 +102,88 @@ router.post("/getSalarys", (ctx, next) => {
     //     commonBack(null, "/getSalarys");
     //   }
     // });
+  }).then((data) => {
+    ctx.body = data;
+  });
+});
+
+// 新增项目
+router.post("/addSalarys", (ctx, next) => {
+  return new Promise(async (resolve, reject) => {
+    let { name, company, pretax, aftertax, descrip } = ctx.request.body;
+    if (!name || !pretax || !aftertax) {
+      resolve(
+        commonBack(
+          null,
+          "error, name, pretax, aftertax is required!",
+          1002,
+          "/addSalarys"
+        )
+      );
+    }
+    const isExist = await poolConnection.query(
+      `SELECT * FROM incomes WHERE name = ?`,
+      [name]
+    );
+    // consoleInfo("查询结果", isExist);
+    if (isExist?.length) {
+      resolve(commonBack(null, `data ${name} is exist!`, 1002));
+      return;
+    }
+    const back = await poolConnection.query(
+      `INSERT INTO incomes (name, company, pretax,aftertax, descrip) VALUES (?, ?, ?, ?,?);`,
+      [name, company, pretax, aftertax, descrip]
+    );
+    resolve(commonBack(null, "success"));
+  }).then((data) => {
+    ctx.body = data;
+  });
+});
+
+// 删除项目
+router.get("/deleteSalarys/:id", (ctx, next) => {
+  return new Promise(async (resolve, reject) => {
+    if (!ctx.params?.id) {
+      resolve(
+        commonBack(null, "error, id is required!", 1002, "/deleteSalarys")
+      );
+    }
+    const back = await poolConnection.query(`DELETE FROM incomes WHERE id=?`, [
+      ctx.params?.id,
+    ]);
+    if (back?.affectedRows) {
+      resolve(commonBack(null, "success"));
+    } else {
+      resolve(commonBack(null, "failed", "/deleteSalarys"));
+    }
+  }).then((data) => {
+    ctx.body = data;
+  });
+});
+
+// 编辑项目
+router.post("/updateSalarys", (ctx, next) => {
+  return new Promise(async (resolve, reject) => {
+    let { id, name, company, pretax, aftertax, descrip } = ctx.request.body;
+    if (!id) {
+      resolve(commonBack(null, "error, id is required!", 1002, "/addSalarys"));
+    }
+    if (!name || !pretax || !aftertax) {
+      resolve(
+        commonBack(
+          null,
+          "error, name, pretax, aftertax is required!",
+          1002,
+          "/addSalarys"
+        )
+      );
+    }
+    const back = await poolConnection.query(
+      `UPDATE incomes SET name=?, company=?, pretax=?,aftertax=?,descrip=? where id=?;`,
+      [name, company, pretax, aftertax, descrip, id]
+    );
+    // consoleInfo("更新结果", back);
+    resolve(commonBack(null, "success"));
   }).then((data) => {
     ctx.body = data;
   });
