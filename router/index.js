@@ -33,7 +33,8 @@ router.post("/getSalarys", (ctx, next) => {
   return new Promise(async (resolve, reject) => {
     let { pageNum, pageSize, year } = ctx.request.body;
     // consoleInfo("接受到的参数pageNum", year);
-    let sqlExpression = "SELECT * FROM `incomes`";
+    //  ORDER BY name DESC 时间倒叙
+    let sqlExpression = "SELECT * FROM `incomes` ORDER BY name DESC";
     let totalExpression = "SELECT COUNT(*) num FROM `incomes`";
     let total,
       list = 0;
