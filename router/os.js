@@ -117,7 +117,7 @@ module.exports = (router) => {
 					<img style="width: 60px; margin-right: 20px" title="gpu" src="/gpu.png" />
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px title="ram"" src="/ram.png" />${osInfo.usedMem}/${osInfo.totalMem}
+					<img style="width: 60px; margin-right: 20px" title="ram"" src="/ram.png" />${osInfo.usedMem}/${osInfo.totalMem}
 				</div>
 			</div>
 		`;

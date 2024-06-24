@@ -1,5 +1,5 @@
 module.exports = {
-	version: "1.0.5",
+	version: "1.0.6",
 	port: 7001,
 	koaOrgUrl: "https://koa.bootcss.com/#application",
 	mysql: {
