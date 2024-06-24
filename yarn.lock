@@ -154,6 +154,13 @@
   dependencies:
     "is-property" "^1.0.2"
 
+"gpu-info@^0.0.1":
+  "integrity" "sha512-dPkrZlFGKX43+825Wawd02tgT+QN8cjbxKp49Z1m3wigAvjqK5WvJyPd8lwN0t5T5ioe7VroPdH5lhzovqqLVw=="
+  "resolved" "https://registry.npmjs.org/gpu-info/-/gpu-info-0.0.1.tgz"
+  "version" "0.0.1"
+  dependencies:
+    "pegjs" "^0.10.0"
+
 "has-symbols@^1.0.2":
   "integrity" "sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A=="
   "resolved" "https://registry.npmjs.org/has-symbols/-/has-symbols-1.0.3.tgz"
@@ -442,6 +449,11 @@
   "integrity" "sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw=="
   "resolved" "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-6.2.1.tgz"
   "version" "6.2.1"
+
+"pegjs@^0.10.0":
+  "integrity" "sha512-qI5+oFNEGi3L5HAxDwN2LA4Gg7irF70Zs25edhjld9QemOgp0CbvMtbFcMvFtEo1OityPrcCzkQFB8JP/hxgow=="
+  "resolved" "https://registry.npmjs.org/pegjs/-/pegjs-0.10.0.tgz"
+  "version" "0.10.0"
 
 "qs@~2.4.1":
   "integrity" "sha512-Ur2glV49dt6jknphzkWeLUNCy7pmwGxGaEJuuxVVBioSwQzT00cZPLEtRqr4cg/iO/6N+RbfB0lFD2EovyeEng=="

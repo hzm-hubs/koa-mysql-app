@@ -1,6 +1,8 @@
 // 动态路由
 const koaRouter = require("koa-router");
 
+const config = require("../config/index"); //引入配置文件
+
 const router = new koaRouter();
 
 const registerDns = require("./dns");
@@ -13,7 +15,11 @@ const regisSalary = require("./salary");
 
 const regisOs = require("./os");
 
-// 根路径
+router.get("/", (ctx) => {
+  ctx.body = `<h4 style="padding:16px">welcome, koa-mysql-app@${config.version}</h4>`;
+});
+
+// os
 regisOs(router);
 
 // 注册DNS相关接口

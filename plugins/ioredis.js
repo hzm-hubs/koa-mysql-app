@@ -7,21 +7,21 @@ const Redis = require("ioredis");
 // const redis = new Redis();
 
 // connect redis
-const redis = new Redis({
-	host: config.redis.host,
-	port: config.redis.port,
-});
+// const redis = new Redis({
+// 	host: config.redis.host,
+// 	port: config.redis.port,
+// });
 
 // const redis = new Redis();
 
 const setRedis = (key, value) => {
-	redis.set(key, value);
+  redis.set(key, value);
 };
 const getRedis = (key) => {
-	return Promise.resolve(redis.get(key));
+  return Promise.resolve(redis.get(key));
 };
 
 module.exports = {
-	setRedis,
-	getRedis,
+  setRedis,
+  getRedis,
 };
