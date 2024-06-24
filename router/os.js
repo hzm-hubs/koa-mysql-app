@@ -1,53 +1,44 @@
 // // node:os 模块提供了与操作系统相关的实用方法和属性。 可以使用以下方式访问它
 const os = require("os");
 
-const { dealTeam, dealMem } = require("../plugins/utils");
+const { dealMem } = require("../plugins/utils");
 
 // 定义一个导出对象
 var osInfo = {};
 
 // cpu架构
 osInfo.arch = os.arch();
-// console.log("cpu架构：" + arch);
 
 // 行尾标记
 osInfo.eol = os.EOL;
-// console.log("行尾标记：" + eol);
 
 // 系统特定常量
 osInfo.constants = os.constants;
-// console.log("系统特定常量:" + JSON.stringify(constants));
 
 // 当前用户信息
 osInfo.userInfo = os.userInfo();
-// console.log("当前用户信息: " + userInfo);
 
 // 操作系统内核
 osInfo.kernel = os.type();
-// console.log("操作系统内核：" + kernel);
 
 // 操作系统平台
 osInfo.pf = os.platform();
-// console.log("平台：" + pf);
 
 // 系统开机时间
 osInfo.uptime = os.uptime();
-// console.log("开机时间：" + dealTime(uptime));
 
 // 主机名
-osInfo.hn = os.hostname();
-// console.log("主机名：" + hn);
+osInfo.hostname = os.hostname();
 
 // 主目录
 osInfo.hdir = os.homedir();
-// console.log("主目录：" + hdir);
 
 // 内存
 osInfo.totalMem = dealMem(os.totalmem());
+
 osInfo.freeMem = dealMem(os.freemem());
-// console.log(
-// 	"内存大小：" + dealMem(totalMem) + " 空闲内存：" + dealMem(freeMem)
-// );
+
+osInfo.usedMem = dealMem(os.totalmem() - os.freemem());
 
 // cpu
 // console.log("*****cpu信息*******");
@@ -75,6 +66,7 @@ osInfo.cpus = Array.from(os.cpus()).map((cpu, idx, arr) => {
 		100
 	).toFixed(2)}%`;
 
+	//  { index: 6, model: 'Apple M1 Pro', speed: '24MHz', useRate: '6.02%' }
 	return temp;
 });
 
@@ -100,4 +92,34 @@ for (let nw in networksObj) {
 	);
 }
 
-module.exports = osInfo;
+module.exports = (router) => {
+	router.get("/", (ctx, next) => {
+		ctx.body = `
+		<div style="padding:16px">
+		<h3>this below is computer info</h3>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px" title="host" src="/host.png" />
+					${osInfo.hostname}
+				</div>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px" title="core" src="/core.png" />
+					${osInfo.arch}
+				</div>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px" title="os" src="/os.png" />
+					${osInfo.pf}
+				</div>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px" title="cpu" src="/cpu.png" />
+					${osInfo.cpus[0].model}
+				</div>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px" title="gpu" src="/gpu.png" />
+				</div>
+				<div style="display:flex;align-items:center;margin: 20px 0">
+					<img style="width: 60px; margin-right: 20px title="ram"" src="/ram.png" />${osInfo.usedMem}/${osInfo.totalMem}
+				</div>
+			</div>
+		`;
+	});
+};

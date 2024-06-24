@@ -21,7 +21,7 @@ app.use(static("static"));
  *  app.use('/static',require("koa-static")( "static"))
  */
 
-consola.log("注册路由信息", JSON.stringify(router));
+// consola.log("注册路由信息", JSON.stringify(router));
 
 // 绑定动态路由
 app.use(router.routes()).use(router.allowedMethods());
@@ -32,7 +32,7 @@ app.use(async (ctx) => {
 });
 
 app.listen(config.port, () => {
-	consola.success(`service is listenning on localhost:${config.port}`);
+	consola.success(`service is listenning on http://localhost:${config.port}`);
 });
 
 app.on("error", (error) => {
