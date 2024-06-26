@@ -7,18 +7,20 @@ const { dealMem } = require("../plugins/utils");
 
 // 定义一个导出对象
 var osInfo = {
-  gpu: null,
+	gpu: null,
 };
 
-try {
-  gpuInfo().then(function (data) {
-    if (Array.isArray(data) && data.length) {
-      osInfo.gpu = data.map((it) => it.Name || it.Description).join("、");
-    }
-  });
-} catch (err) {
-  osInfo.gpu = null;
-}
+// try catch 只能捕获同步执行的代码
+(async function () {
+	try {
+		const data = await gpuInfo();
+		if (Array.isArray(data) && data.length) {
+			osInfo.gpu = data.map((it) => it.Name || it.Description).join("、");
+		}
+	} catch (err) {
+		osInfo.gpu = null;
+	}
+})();
 
 // cpu架构
 osInfo.arch = os.arch();
@@ -57,58 +59,58 @@ osInfo.usedMem = dealMem(os.totalmem() - os.freemem());
 // cpu
 // console.log("*****cpu信息*******");
 osInfo.cpus = Array.from(os.cpus()).map((cpu, idx, arr) => {
-  let temp = {};
-  let times = cpu.times;
-  // console.log(`cpu${idx}：`);
-  temp.index = idx;
-  // console.log(`型号：${cpu.model}`);
-  temp.model = cpu.model;
-  // console.log(`频率：${cpu.speed}MHz`);
-  temp.speed = `${cpu.speed}MHz`;
-  // console.log(
-  // 	`使用率：${(
-  // 		(1 -
-  // 			times.idle /
-  // 				(times.idle + times.user + times.nice + times.sys + times.irq)) *
-  // 		100
-  // 	).toFixed(2)}%`
-  // );
-  temp.useRate = `${(
-    (1 -
-      times.idle /
-        (times.idle + times.user + times.nice + times.sys + times.irq)) *
-    100
-  ).toFixed(2)}%`;
+	let temp = {};
+	let times = cpu.times;
+	// console.log(`cpu${idx}：`);
+	temp.index = idx;
+	// console.log(`型号：${cpu.model}`);
+	temp.model = cpu.model;
+	// console.log(`频率：${cpu.speed}MHz`);
+	temp.speed = `${cpu.speed}MHz`;
+	// console.log(
+	// 	`使用率：${(
+	// 		(1 -
+	// 			times.idle /
+	// 				(times.idle + times.user + times.nice + times.sys + times.irq)) *
+	// 		100
+	// 	).toFixed(2)}%`
+	// );
+	temp.useRate = `${(
+		(1 -
+			times.idle /
+				(times.idle + times.user + times.nice + times.sys + times.irq)) *
+		100
+	).toFixed(2)}%`;
 
-  //  { index: 6, model: 'Apple M1 Pro', speed: '24MHz', useRate: '6.02%' }
-  return temp;
+	//  { index: 6, model: 'Apple M1 Pro', speed: '24MHz', useRate: '6.02%' }
+	return temp;
 });
 
 // 网卡
 // console.log("*****网卡信息*******");
 var networksObj = os.networkInterfaces();
 for (let nw in networksObj) {
-  osInfo["networksObj" + nw] = Array.from(networksObj[nw]).map(
-    (obj, idx, arr) => {
-      let temp = {};
-      // console.log(`地址：${obj.address}`);
-      // console.log(`掩码：${obj.netmask}`);
-      // console.log(`物理地址：${obj.mac}`);
-      // console.log(`协议族：${obj.family}`);
-      temp.index = obj.idx;
-      temp.address = obj.address;
-      temp.netmask = obj.netmask;
-      temp.mac = obj.mac;
-      temp.family = obj.family;
+	osInfo["networksObj" + nw] = Array.from(networksObj[nw]).map(
+		(obj, idx, arr) => {
+			let temp = {};
+			// console.log(`地址：${obj.address}`);
+			// console.log(`掩码：${obj.netmask}`);
+			// console.log(`物理地址：${obj.mac}`);
+			// console.log(`协议族：${obj.family}`);
+			temp.index = obj.idx;
+			temp.address = obj.address;
+			temp.netmask = obj.netmask;
+			temp.mac = obj.mac;
+			temp.family = obj.family;
 
-      return temp;
-    }
-  );
+			return temp;
+		}
+	);
 }
 
 module.exports = (router) => {
-  router.get("/osInfo", (ctx, next) => {
-    ctx.body = `
+	router.get("/osInfo", (ctx, next) => {
+		ctx.body = `
 		<div style="padding:16px">
 		<h3>this below is computer info</h3>
 				<div style="display:flex;align-items:center;margin: 20px 0">
@@ -136,5 +138,5 @@ module.exports = (router) => {
 				</div>
 			</div>
 		`;
-  });
+	});
 };
