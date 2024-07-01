@@ -1,17 +1,19 @@
 // 引入 koa
 const koa = require("koa");
 
-const cors = require('koa2-cors');
+const cors = require("koa2-cors");
 
 // 打印插件
 const consola = require("consola");
 
 // POST请求参数需要用到
-const bodyParser = require('koa-body-parser');
+const bodyParser = require("koa-body-parser");
+
+const sdf = require("./plugins/child_process");
 
 const app = new koa();
 
-app.use(bodyParser())
+app.use(bodyParser());
 
 /**
  *  可以设置代理
@@ -24,16 +26,18 @@ app.use(bodyParser())
  *  ctx 包含 request、header、response、app、originalUrl 、 req 、res 、socket
  */
 
-app.use(cors({
-	origin: function (ctx) {
-	  return '*';
-	},
-	// exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-	maxAge: 5,
-	// credentials: true,
-	// allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
-	// allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  }))
+app.use(
+	cors({
+		origin: function (ctx) {
+			return "*";
+		},
+		// exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+		maxAge: 5,
+		// credentials: true,
+		// allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
+		// allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+	})
+);
 
 app.use(async (ctx, next) => {
 	/**
@@ -42,7 +46,6 @@ app.use(async (ctx, next) => {
 	 */
 
 	await next();
-
 
 	// 获取来自下一个方式跳动
 	let rt = ctx.response.get("X-Response-Time");
