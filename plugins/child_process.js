@@ -33,6 +33,7 @@ telnet.on("close", (code) => {
 	console.log(`spawn: telnet exited with code ${code}`);
 });
 
+// fork 衍生新的 Node.js 进程并使用建立的 IPC 通信通道（其允许在父子进程之间发送消息）调用指定的模块
 // __dirname 获取当前绝对路径
 var forkStatic = fork(path.join(__dirname, "./fork_child.js"), {
 	silent: false,
