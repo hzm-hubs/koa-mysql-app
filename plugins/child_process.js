@@ -1,37 +1,56 @@
 const { spawn, fork } = require("node:child_process");
 
+// const os = require("os");
+
+const process = require("process"); // 等同于 os.platform()
+
 const path = require("node:path");
 
 // spawn 用于执行命令的回调：child_process.spawn(command[, args][, options])
 
-// 进入 / usr 路径 执行 ls - lh 命令
-const ls = spawn("ls", ["-lh", "/usr"]);
+if (process.platform !== "win32") {
+	// 进入 / usr 路径 执行 ls - lh 命令
+	const ls = spawn("ls", ["-lh", "/usr"]);
 
-const telnet = spawn("telnet", ["172.16.32.234", "2100"]);
+	const telnet = spawn("telnet", ["172.16.32.234", "2100"]);
 
-// 标准输出的回调
-ls.stdout.on("data", (data) => {
-	console.log(`stdout: ${data}`);
-});
+	// 标准输出的回调
+	ls.stdout.on("data", (data) => {
+		console.log(`stdout: ${data}`);
+	});
 
-// 标准错误的回调
-ls.stderr.on("data", (data) => {
-	console.error(`stderr: ${data}`);
-});
+	// 标准错误的回调
+	ls.stderr.on("data", (data) => {
+		console.error(`stderr: ${data}`);
+	});
 
-// 关闭
-ls.on("close", (code) => {
-	console.log(`spawn: ls exited with code ${code}`);
-});
+	// 关闭
+	ls.on("close", (code) => {
+		console.log(`spawn: ls exited with code ${code}`);
+	});
 
-telnet.stderr.on("data", (data) => {
-	console.error(`telnet error: ${data}`);
-});
+	telnet.stderr.on("data", (data) => {
+		console.error(`telnet error: ${data}`);
+	});
 
-// 关闭
-telnet.on("close", (code) => {
-	console.log(`spawn: telnet exited with code ${code}`);
-});
+	// 关闭
+	telnet.on("close", (code) => {
+		console.log(`spawn: telnet exited with code ${code}`);
+	});
+} else {
+	// win
+	const txt = spawn("cmd.exe", [path.join(__dirname), "fork.txt"]);
+
+	txt.stdout.on("data", (data) => {
+		console.log("txt stdout", data.toString());
+	});
+	txt.stderr.on("data", (data) => {
+		console.log("txt stderr", data.toString());
+	});
+	txt.on("exit", (code) => {
+		console.log("txt exit", code);
+	});
+}
 
 // fork 衍生新的 Node.js 进程并使用建立的 IPC 通信通道（其允许在父子进程之间发送消息）调用指定的模块
 // __dirname 获取当前绝对路径
@@ -54,7 +73,7 @@ forkStatic.on("message", (message) => {
 	}
 });
 
-module.exports = {
-	ls,
-	telnet,
-};
+// module.exports = {
+// 	ls,
+// 	telnet,
+// };

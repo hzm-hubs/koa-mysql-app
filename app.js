@@ -9,8 +9,6 @@ const consola = require("consola");
 // POST请求参数需要用到
 const bodyParser = require("koa-body-parser");
 
-const sdf = require("./plugins/child_process");
-
 const app = new koa();
 
 app.use(bodyParser());
