@@ -1,33 +1,37 @@
 {
-  "name": "koajs",
-  "version": "1.0.0",
-  "description": "npm init",
-  "main": "index.js",
-  "scripts": {
-    "start": "node bin/www",
-    "prd": "pm2 start bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/author2468/koajs.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/author2468/koajs/issues"
-  },
-  "homepage": "https://github.com/author2468/koajs#readme",
-  "dependencies": {
-    "@koa/cors": "^3.3.0",
-    "consola": "^2.15.3",
-    "gpu-info": "^0.0.1",
-    "ioredis": "^5.4.1",
-    "koa": "^2.13.4",
-    "koa-body-parser": "^1.1.2",
-    "koa-router": "^10.1.1",
-    "koa-static": "^5.0.0",
-    "koa2-cors": "^2.0.6",
-    "mysql2": "^3.1.2"
-  }
+	"name": "koajs",
+	"version": "1.0.0",
+	"description": "npm init",
+	"main": "index.js",
+	"scripts": {
+		"start": "node bin/www",
+		"prod": "pm2 start bin/www",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"webpack": "webpack"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/author2468/koajs.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/author2468/koajs/issues"
+	},
+	"homepage": "https://github.com/author2468/koajs#readme",
+	"dependencies": {
+		"@koa/cors": "^3.3.0",
+		"consola": "^2.15.3",
+		"gpu-info": "^0.0.1",
+		"ioredis": "^5.4.1",
+		"koa": "^2.13.4",
+		"koa-body-parser": "^1.1.2",
+		"koa-router": "^10.1.1",
+		"koa-static": "^5.0.0",
+		"koa2-cors": "^2.0.6",
+		"mysql2": "^3.1.2",
+		"webpack": "^5.93.0",
+		"webpack-cli": "^5.1.4",
+		"webpack-node-externals": "^3.0.0"
+	}
 }

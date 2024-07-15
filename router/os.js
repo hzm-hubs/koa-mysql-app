@@ -111,30 +111,31 @@ for (let nw in networksObj) {
 module.exports = (router) => {
 	router.get("/osInfo", (ctx, next) => {
 		ctx.body = `
-		<div style="padding:16px">
-		<h3>this below is computer info</h3>
+		<div style="padding: 0 16px">
+		<h3>this below are computer info:</h3>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="host" src="/host.png" />
-					${osInfo.hostname}
+					<img style="width: 40px; margin-right: 20px" title="host" src="/host.png" />
+					主机名：${osInfo.hostname}
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="core" src="/core.png" />
-					${osInfo.arch}
+					<img style="width: 40px; margin-right: 20px" title="core" src="/core.png" />
+					架构：${osInfo.arch}
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="os" src="/os.png" />
-					${osInfo.pf}
+					<img style="width: 40px; margin-right: 20px" title="os" src="/os.png" />
+					操作系统：${osInfo.pf}
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="cpu" src="/cpu.png" />
-					${osInfo.cpus[0].model}
+					<img style="width: 40px; margin-right: 20px" title="cpu" src="/cpu.png" />
+					cpu：${osInfo.cpus[0].model}
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="gpu" src="/gpu.png" />
-					${osInfo.gpu}
+					<img style="width: 40px; margin-right: 20px" title="gpu" src="/gpu.png" />
+					gpu：${osInfo.gpu}
 				</div>
 				<div style="display:flex;align-items:center;margin: 20px 0">
-					<img style="width: 60px; margin-right: 20px" title="ram"" src="/ram.png" />${osInfo.usedMem}/${osInfo.totalMem}
+					<img style="width: 40px; margin-right: 20px" title="ram"" src="/ram.png" />
+					运行内存：${osInfo.usedMem}/${osInfo.totalMem}
 				</div>
 			</div>
 		`;
