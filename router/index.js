@@ -16,7 +16,7 @@ const regisSalary = require("./salary");
 const regisOs = require("./os");
 
 router.get("/", (ctx) => {
-  ctx.body = `<h4 style="padding:16px">welcome, koa-mysql-app@${config.version}</h4>`;
+	ctx.body = `<h4 style="padding:16px">welcome, koa-mysql-app@${config.version}</h4>`;
 });
 
 // os

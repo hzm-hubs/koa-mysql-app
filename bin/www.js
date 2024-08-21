@@ -26,11 +26,6 @@ app.use(static("static"));
 // 绑定动态路由
 app.use(router.routes()).use(router.allowedMethods());
 
-app.use(async (ctx) => {
-	// console.log("上下文", JSON.stringify(ctx));
-	ctx.body = ctx.request.body;
-});
-
 app.listen(config.port, () => {
 	consola.success(`service is listenning on http://localhost:${config.port}`);
 });

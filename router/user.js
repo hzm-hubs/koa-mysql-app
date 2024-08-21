@@ -9,6 +9,10 @@ var userList = [
 		name: "harden",
 		age: 20,
 	},
+	{
+		name: "kawai",
+		age: 18,
+	},
 ];
 
 const judgeInfo = function (queryName) {
@@ -31,6 +35,14 @@ module.exports = (router) => {
 		// /:写法可用 ctx.params 获取路径参数
 		console.log("params", params);
 		let response = judgeInfo(params?.name);
+		// 设置 cookie
+		ctx.cookies.set("koa-mysql", "value", {
+			domain: "localhost", // 写cookie所在的域名
+			maxAge: 10 * 60 * 1000, // cookie有效时长,maxAge优先级比expires高，单位秒，低版本ie不支持
+			expires: new Date("2025-02-15"), // 设置cookie失效时间
+			httpOnly: false, // 是否只用于http请求中获取
+			overwrite: false, // 是否允许重写
+		});
 		ctx.body = response;
 	});
 
