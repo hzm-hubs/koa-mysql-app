@@ -7,13 +7,15 @@ const router = new koaRouter();
 
 const registerDns = require("./dns");
 
-const regisRedis = require("./redis");
+// const regisRedis = require("./redis");
 
 const regisUser = require("./user");
 
 const regisSalary = require("./salary");
 
 const regisOs = require("./os");
+
+const regisEventSource = require("./eventsource");
 
 router.get("/", (ctx) => {
 	ctx.body = `<h4 style="padding:16px">welcome, koa-mysql-app@${config.version}</h4>`;
@@ -26,12 +28,14 @@ regisOs(router);
 registerDns(router);
 
 // 注册 redis 接口
-regisRedis(router);
+// regisRedis(router);
 
 // 注册用户接口
 regisUser(router);
 
 // 注册薪水接口
 regisSalary(router);
+
+regisEventSource(router);
 
 module.exports = router;

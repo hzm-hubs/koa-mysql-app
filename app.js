@@ -55,6 +55,7 @@ app.use(async (ctx, next) => {
 
 	// 控制台输出日志
 	console.log(curLog);
+	// 或者新开终端 tail -f ./logs/index.log 循环打印日志
 
 	exec(
 		`echo ${curLog} >> ${path.join(__dirname, "./logs/index.log")}`,
