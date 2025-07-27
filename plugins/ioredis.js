@@ -7,10 +7,10 @@ const Redis = require("ioredis");
 // const redis = new Redis();
 
 // connect redis
-// const redis = new Redis({
-// 	host: config.redis.host,
-// 	port: config.redis.port,
-// });
+const redis = new Redis({
+  host: config.redis.host,
+  port: config.redis.port,
+});
 
 // const redis = new Redis();
 
