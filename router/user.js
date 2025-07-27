@@ -1,5 +1,3 @@
-const router = require(".");
-
 var userList = [
 	{
 		name: "james",
