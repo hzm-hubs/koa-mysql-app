@@ -15,6 +15,8 @@ const regisSalary = require("./salary");
 
 const regisOs = require("./os");
 
+const regisHot = require("./hot");
+
 const regisEventSource = require("./eventsource");
 
 const regisOllama = require("./ollama");
@@ -25,6 +27,8 @@ router.get("/", (ctx) => {
 
 // os
 regisOs(router);
+
+regisHot(router);
 
 // 注册DNS相关接口
 registerDns(router);
