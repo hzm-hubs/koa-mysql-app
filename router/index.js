@@ -17,6 +17,8 @@ const regisOs = require("./os");
 
 const regisEventSource = require("./eventsource");
 
+const regisOllama = require("./ollama");
+
 router.get("/", (ctx) => {
 	ctx.body = `<h4 style="padding:16px">welcome, koa-mysql-app@${config.version}</h4>`;
 });
@@ -37,5 +39,7 @@ regisUser(router);
 regisSalary(router);
 
 regisEventSource(router);
+
+regisOllama(router);
 
 module.exports = router;
