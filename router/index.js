@@ -7,7 +7,7 @@ const router = new koaRouter();
 
 const registerDns = require("./dns");
 
-// const regisRedis = require("./redis");
+const regisRedis = require("./redis");
 
 const regisUser = require("./user");
 
@@ -34,7 +34,7 @@ regisHot(router);
 registerDns(router);
 
 // 注册 redis 接口
-// regisRedis(router);
+regisRedis(router);
 
 // 注册用户接口
 regisUser(router);
