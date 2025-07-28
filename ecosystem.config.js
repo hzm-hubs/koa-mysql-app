@@ -7,7 +7,6 @@ module.exports = {
 				NODE_ENV: "production",
 			},
 			autorestart: true,
-			watch: false,
 			instances: 2,
 			exec_mode: "cluster", // 集群模式
 			error_file: "err.log",
