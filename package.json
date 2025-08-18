@@ -32,8 +32,12 @@
 		"koa2-cors": "^2.0.6",
 		"mysql2": "^3.1.2",
 		"ollama": "^0.5.15",
+		"playwright": "^1.54.2",
 		"webpack": "^5.93.0",
 		"webpack-cli": "^5.1.4",
 		"webpack-node-externals": "^3.0.0"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.54.2"
 	}
 }
