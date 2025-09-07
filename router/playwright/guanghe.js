@@ -17,7 +17,7 @@ const downloadImagePath = path.join(__dirname, "/downloads/images/guanghe");
 
   let context;
   if (fs.existsSync(downloadPath)) {
-    console.log("发现 auth.json，尝试自动登录");
+    console.log("发现 guanghe-auth.json，尝试自动登录");
     context = await browser.newContext({
       storageState: downloadPath,
     });
@@ -39,21 +39,38 @@ const downloadImagePath = path.join(__dirname, "/downloads/images/guanghe");
 
   // 检查是否已登录（比如页面是否跳转到 aurora）
   if (isLogin) {
-    // 未登录，执行登录流程 会遇到滑块验证码
     await page.waitForSelector(".login-content");
 
-    await page.screenshot({ path: downloadImagePath });
+    await page.click(".fm-agreement"); // 同意协议
 
-    await page.fill('[name="fm-login-id"]', "15882542241");
+    // 扫码登录
+    // await page.screenshot({ path: downloadImagePath });
+    // 扫码登录--end
 
-    await page.fill('[name="fm-login-password"]', "hzm888");
+    // 密码登录，执行登录流程 会遇到滑块验证码
+    // await page.fill('[name="fm-login-id"]', "15882542241");
 
-    await page.click(".fm-agreement");
+    // await page.fill('[name="fm-login-password"]', "hzm888");
+    // 密码登录--end
+
+    // 短信登录
+    await page.click("text=短信登录");
+
+    await page.fill('[name="fm-sms-login-id"]', "15882542241");
+
+    await page.click("text=获取验证码");
+
+    const smsCode = await loopGetSms();
+
+    console.log("获取到的验证码:", smsCode);
+
+    await page.fill('[name="fm-smscode"]', smsCode);
+    // 短信登录--end
 
     // 点击登录并等待导航
     await Promise.all([
       page.waitForURL("**/page/**"),
-      page.click(".password-login"),
+      page.click(".fm-button"),
     ]);
 
     console.log("已完成登录流程");
@@ -77,22 +94,62 @@ const downloadImagePath = path.join(__dirname, "/downloads/images/guanghe");
   //   console.log("context获取cookie:", cookies);
 
   // 后续操作...
-
-  // 处理可能出现的弹窗
-  // await handlePotentialPopups(page);
-
-  // 等待并点击下载按钮
-  // await clickDownloadButton(page);
+  // browser.close();
 })();
 
-async function judgeLogin(page) {
+async function judgeLogin(page, tagetText = "text=登录") {
   let isLogin = false;
   try {
-    await page.waitForSelector("text=登录", { timeout: 5000 });
+    await page.waitForSelector(tagetText, { timeout: 5000 });
     isLogin = true; // 找到登录按钮，说明未登录
   } catch (e) {
     isLogin = false; // 没找到登录按钮，说明已登录
   }
   console.log("是否需要登录：", isLogin);
   return isLogin;
+}
+
+async function loopGetSms(maxWaitTime = 60, inteval = 3000) {
+  return new Promise((resolve) => {
+    try {
+      let currentTime = 0;
+      let timer = null;
+      timer = setInterval(async () => {
+        console.log("准备最新验证码");
+        if (currentTime < maxWaitTime) {
+          const { status, body } = await fetch(
+            "http://8.130.22.118:7002/redis/get?name=smsCode"
+          );
+          if (status == 200) {
+            const reader = await body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            const { value } = await reader.read();
+            let buffer = "";
+            buffer += decoder.decode(value);
+            console.log("buffer:", buffer);
+            if (buffer !== "not found") {
+              clearInterval(timer);
+              timer = null;
+              resolve(buffer);
+              // 清楚验证码
+              fetch("http://8.130.22.118:7002/redis/set", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name: "smsCode", value: "" }),
+              });
+            }
+            currentTime += 1;
+          }
+        } else {
+          clearInterval(timer);
+          timer = null;
+          resolve("");
+        }
+      }, inteval);
+    } catch (e) {
+      resolve("");
+    }
+  });
 }
