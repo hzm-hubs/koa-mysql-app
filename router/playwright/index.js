@@ -232,7 +232,7 @@ async function downloadFile() {
     // Perform the action that initiates download
     page.click("text=下载表格"),
   ]);
-  // Wait for the download process to complete
+  // Wait for the download process to complete 默认下载
   const downloadPath = await download.path();
   console.log("downloadPath", downloadPath);
   const suggestedFilename = download.suggestedFilename();

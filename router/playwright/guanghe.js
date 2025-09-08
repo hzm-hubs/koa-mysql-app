@@ -6,6 +6,7 @@ const downloadPath = path.join(
   __dirname,
   "/downloads/storage/guanghe-auth.json"
 );
+const xlsxdownloadPath = path.join(__dirname, "/downloads/xlsx/guanghe");
 
 const downloadImagePath = path.join(__dirname, "/downloads/images/guanghe");
 
@@ -92,10 +93,26 @@ const downloadImagePath = path.join(__dirname, "/downloads/images/guanghe");
   //   const cookies = await context.cookies(); // 现在又能获取了
 
   //   console.log("context获取cookie:", cookies);
-
+  handleDownload(page);
   // 后续操作...
   // browser.close();
 })();
+
+async function handleDownload(page, selector = 'img[alt*="导出"]') {
+  const isExist = judgeLogin(selector);
+  if (isExist) {
+    const [download] = await Promise.all([
+      page.waitForEvent("download"), // 等待下载事件
+      page.click(selector), // 触发下载
+    ]);
+    const suggestedFilename = download.suggestedFilename();
+    // 自定义下载路径和文件名
+    await download.saveAs(xlsxdownloadPath + `/${suggestedFilename}`);
+    // 等待下载完成
+    await download.path();
+    console.log("文件已下载到:", xlsxdownloadPath + `/${suggestedFilename}`);
+  }
+}
 
 async function judgeLogin(page, tagetText = "text=登录") {
   let isLogin = false;
